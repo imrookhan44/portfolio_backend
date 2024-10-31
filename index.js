@@ -3,6 +3,7 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const PORT = 4000;
@@ -23,6 +24,7 @@ const upload = multer({ storage: storage });
 // Middleware to parse JSON data (not necessary for multipart but kept for completeness)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 // Helper function to read/write JSON data
 const getData = () => {
