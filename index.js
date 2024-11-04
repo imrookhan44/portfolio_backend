@@ -53,13 +53,6 @@ app.post('/api/data', upload.single('image'), (req, res) => {
   const { title, githubUrl, websiteLink } = req.body;
   const image = req.file ? req.file.path : null;
 
-  // Debugging: Log to see the image path and fields
-  console.log('Image Path:', image);
-  console.log('Title:', title);
-  console.log('GitHub URL:', githubUrl);
-  console.log('Website Link:', websiteLink);
-
-  // Validation
   if (!title || !githubUrl || !websiteLink || !image) {
     return res.status(400).json({ error: 'All fields are required.' });
   }
@@ -85,7 +78,24 @@ app.get('/api/data', (req, res) => {
   res.json(data);
 });
 
-// Start the server
+app.delete('/api/data', (req, res) => {
+  const { id } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ error: 'ID is required' });
+  }
+
+  const data = getData();
+  const newData = data.filter(item => item.id !== id);
+
+  if (data.length === newData.length) {
+    return res.status(404).json({ error: 'Item not found' });
+  }
+
+  saveData(newData);
+  res.status(200).json({ message: 'Item deleted successfully' });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
