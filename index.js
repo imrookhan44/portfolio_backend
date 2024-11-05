@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = 4000;
 
-mongoose.connect('mongodb+srv://imran:USZBOsb6wIvGUc4J@cluster0.kvkdxte.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0').then(() => {
+mongoose.connect(process.env.DB_URL).then(() => {
   console.log('Connected to MongoDB');
 }).catch((error) => {
   console.error('MongoDB connection error:', error);
